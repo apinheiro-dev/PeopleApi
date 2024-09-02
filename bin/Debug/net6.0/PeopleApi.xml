@@ -1,0 +1,97 @@
+<?xml version="1.0"?>
+<doc>
+    <assembly>
+        <name>PeopleApi</name>
+    </assembly>
+    <members>
+        <member name="M:PeopleApi.Controllers.Pessoas.PessoaController.CadastrarPessoa(PeopleApi.Data.Dtos.Pessoas.CreatePessoaDto)">
+            <summary>
+            Adiciona uma pessoa ao banco de dados
+            </summary>
+            <param name="pessoaDto">Objeto com os campos necessários para criação do registro de uma pessoa</param>
+            <returns>IActionResult</returns>
+            <response code="201">Caso inserção seja feita com sucesso</response>
+            <response code="400">Caso existam dados inválidos</response>
+            <response code="500">Caso ocorra erro interno do servidor</response>
+            [ProducesResponseType(StatusCodes.Status204NoContent)]
+        </member>
+        <member name="M:PeopleApi.Controllers.Pessoas.PessoaController.RecuperaPessoaPorId(System.Int32)">
+            <summary>
+            Busca uma pessoa no banco de dados
+            </summary>
+            <param name="id">Parâmetro que indica qual registro será buscado</param>
+            <returns>IActionResult</returns>
+            <response code="200">Caso a busca seja feita com sucesso</response>
+            <response code="404">Caso existam dados inválidos</response>
+            [ProducesResponseType(StatusCodes.Status204NoContent)]
+        </member>
+        <member name="M:PeopleApi.Controllers.Pessoas.PessoaController.AtualizaPessoa(System.Int32,PeopleApi.Data.Dtos.Pessoas.UpdatePessoaDto)">
+            <summary>
+            Atualiza um registro no banco de dados
+            </summary>
+            <param name="id">Parâmetro que indica qual registro será atualizado</param>
+            <param name="pessoaDto">Objeto com os campos necessários para atualização do registro</param>
+            <returns>IActionResult</returns>
+            <response code="204">Caso inserção seja feita com sucesso (sem conteúdo)</response>
+            <response code="400">Caso existam dados inválidos</response>
+        </member>
+        <member name="M:PeopleApi.Controllers.Pessoas.PessoaController.AtualizaPessoaParcial(System.Int32,Microsoft.AspNetCore.JsonPatch.JsonPatchDocument{PeopleApi.Data.Dtos.Pessoas.UpdatePessoaDto})">
+            <response code="204">Caso inserção seja feita com sucesso (sem conteúdo)</response>
+        </member>
+        <member name="M:PeopleApi.Controllers.Pessoas.PessoaController.DeletaPessoa(System.Int32)">
+            <summary>
+            Remove um registro do banco de dados
+            </summary>
+            <param name="id">Parâmetro que indica qual registro será removido</param>
+            <returns>IActionResult</returns>
+            <response code="204">Caso remoção seja feita com sucesso (sem conteúdo)</response>
+        </member>
+        <member name="M:PeopleApi.Controllers.Usuarios.AcessoController.Get">
+            <summary>
+            Valida o acesso do usuário
+            </summary>
+            <returns>IActionResult</returns>
+            <response code="200">Caso efetuado com sucesso</response>
+            <response code="404">Página não encontrada, caso existam dados inválidos</response>
+            <response code="500">Caso ocorra erro interno do servidor</response>
+        </member>
+        <member name="M:PeopleApi.Controllers.Usuarios.UsuarioController.CadastrarUsuarioAsync(PeopleApi.Data.Dtos.Usuarios.CreateUsuarioDto)">
+            <summary>
+            Adiciona um usuário ao banco de dados
+            </summary>
+            <param name="usuarioDto">Objeto com os campos necessários para criação de um usuário</param>
+            <returns>IActionResult</returns>
+            <response code="201">Caso inserção seja feita com sucesso</response>
+            <response code="400">Caso existam dados inválidos</response>
+            <response code="500">Caso ocorra erro interno do servidor</response>
+        </member>
+        <member name="M:PeopleApi.Controllers.Usuarios.UsuarioController.LoginAsync(PeopleApi.Data.Dtos.Usuarios.LoginUsuarioDto)">
+            <summary>
+            Efetua o login de um usuário cadastrado
+            </summary>
+            <param name="usuarioDto">Objeto com os campos necessários para criação de um usuário</param>
+            <returns>IActionResult</returns>
+            <response code="200">Caso efetuado com sucesso</response>
+            <response code="400">Caso existam dados inválidos</response>
+            <response code="500">Caso ocorra erro interno do servidor</response>
+        </member>
+        <member name="M:PeopleApi.Controllers.Usuarios.UsuarioController.GetUsuarioPorId(System.String)">
+            <summary>
+            Busca um usuário cadastrado pelo id
+            </summary>
+            <param name="id">Parâmetro que indica qual registro será removido</param>
+            <returns>IActionResult</returns>
+            <response code="200">Caso efetuado com sucesso</response>
+            <response code="400">Caso existam dados inválidos</response>
+            <response code="500">Caso ocorra erro interno do servidor</response>
+        </member>
+        <member name="M:PeopleApi.Controllers.Usuarios.UsuarioController.RemoverUsuario(System.String)">
+            <summary>
+            Remove um usuário do banco de dados
+            </summary>
+            <param name="id">Parâmetro que indica qual registro será removido</param>
+            <returns>IActionResult</returns>
+            <response code="204">Caso remoção seja feita com sucesso (sem conteúdo)</response>
+        </member>
+    </members>
+</doc>
