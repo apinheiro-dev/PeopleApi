@@ -1,0 +1,85 @@
+﻿using AutoMapper;
+using Microsoft.AspNetCore.Identity;
+using Microsoft.AspNetCore.Mvc;
+using PeopleApi.Data;
+using PeopleApi.Data.Dtos.Usuarios;
+using PeopleApi.Models;
+using Microsoft.AspNetCore.Http;
+
+namespace PeopleApi.Services.Usuarios
+{
+    public class UsuarioService
+    {
+        private IMapper _mapper;
+        private UserManager<Usuario> _userManager;
+        private SignInManager<Usuario> _signInManager;
+        private TokenService _tokenService;
+        private UsuarioDbContext _usuarioContext;
+
+        public UsuarioService(IMapper mapper, UserManager<Usuario> userManager, SignInManager<Usuario> signInManager, 
+            TokenService tokenService, UsuarioDbContext usuarioDbContext)
+        {
+            _mapper = mapper;
+            _userManager = userManager;
+            _signInManager = signInManager;
+            _tokenService = tokenService;
+            _usuarioContext = usuarioDbContext;
+        }
+
+        public async Task CadastrarUsuarioAsync(CreateUsuarioDto dto)
+        {            
+            Usuario usuario = _mapper.Map<Usuario>(dto);
+
+            IdentityResult resultado = await _userManager.CreateAsync(usuario, dto.Senha);
+
+            if (!resultado.Succeeded)
+            {
+                throw new ApplicationException("Falha ao cadastrar usuário!");
+            }
+        }
+
+        public async Task<string> LoginAsync(LoginUsuarioDto dto)
+        {
+            var resultado = await _signInManager.PasswordSignInAsync(dto.NomeUsuario, dto.Senha, false, false);
+
+            if (!resultado.Succeeded)
+            {
+                throw new ApplicationException("Usuário não autenticado!");
+            }
+
+            var usuario = _signInManager
+                .UserManager
+                .Users
+                .FirstOrDefault(user => user.NormalizedUserName == dto.NomeUsuario.ToUpper());
+
+            var token = _tokenService.GenerateToken(usuario);
+
+            return token;
+        }
+
+        public Task<IActionResult> GetUsuarioPorId(string id)
+        {
+            var usuario = _usuarioContext.Users.FirstOrDefault(
+                usuario => usuario.Id == id);
+
+            if (usuario == null) return (Task<IActionResult>)Results.NotFound();
+
+            var usuarioDto = _mapper.Map<Usuario>(usuario);
+
+            return (Task<IActionResult>)Results.Ok(usuarioDto);
+        }
+
+        public IActionResult RemoverUsuario(string id)
+        {
+            var usuario = _usuarioContext.Users.FirstOrDefault(
+                usuario => usuario.Id == id);
+
+            if (usuario == null) return (IActionResult)Results.NotFound();
+
+            _usuarioContext.Remove(usuario);
+            _usuarioContext.SaveChanges();
+            
+            return (IActionResult)Results.NoContent();
+        }
+    }
+}
